@@ -1,4 +1,6 @@
 import asyncio
+import warnings
+
 import setting
 from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
 from danmu.main import danmuMain
@@ -43,7 +45,8 @@ def on_press(key):
 
 
 def startKeyboardListener():
-    # 键盘监听事件
+    # 键盘监听事件：阻塞线程
+    warnings.warn("with 语句阻塞了主线程。使用start代替with/join创建一个允许主循环启动的非阻塞线程.")
     with keyboard.Listener(on_press=on_press) as listener:
         listener.join()
 
@@ -52,6 +55,8 @@ if __name__ == '__main__':
     live_urls = setting.LIVE_URLS
     task_futures = []
     redisUtil.setBulletSwitchStatus(redisUtil.SWITCH_OFF_STATUS)
+    # 键盘监听事件：非阻塞线程
+    keyboard.Listener(on_press=on_press).start()
     # 同步asyncio.loop
     loop = asyncio.get_event_loop()
     asyncio.set_event_loop(loop)
@@ -59,8 +64,8 @@ if __name__ == '__main__':
     max_worker_n = len(live_urls) + 2
     # 父线程捕获子线程抛出的异常
     with ThreadPoolExecutor(max_workers=max_worker_n) as executor:
-        # 启动键盘监听事件
-        task_futures.append(executor.submit(startKeyboardListener))
+        # 启动键盘监听事件：阻塞线程需要另起线程
+        # task_futures.append(executor.submit(startKeyboardListener))
         # 启动直播弹幕线程
         for live_url in live_urls:
             task_futures.append(executor.submit(danmuMain, live_url))
