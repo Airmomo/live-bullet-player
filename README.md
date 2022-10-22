@@ -1,5 +1,5 @@
 # live-bullet-player
-获取直播实时弹幕，将弹幕内容转为键盘指令，通过PyAutoGUI执行指令操作电脑
+支持获取各大直播的实时弹幕内容，支持将弹幕内容映射为键盘指令，通过PyAutoGUI执行指令操作电脑
 # 支持平台
 19 个直播平台的弹幕获取：抖音直播、斗鱼直播、虎牙直播、哔哩哔哩直播、快手直播、火猫直播、企鹅电竞、花椒直播、映客直播、网易 CC 直播、酷狗直播、龙珠直播、PPS 奇秀、搜狐千帆、战旗直播、来疯直播、网易 LOOK 直播、AcFun 直播、艺气山直播。
 # 扩展功能
@@ -14,9 +14,9 @@
     - `GAME_KEY_MAP`：弹幕指令映射表
     - `KEY_LIST`：允许触发指令的弹幕字符串，必须先在`GAME_KEY_MAP`中定义映射关系
 - 提供`util`层封装相关操作
-- bulletUtil：输出弹幕信息格式化等功能
-- redisUtil：单例化Redis连接对象等功能
-- pyAutoGuiUtil：封装PyAutoGUI操作等功能
+  - bulletUtil：输出弹幕信息格式化等功能
+  - redisUtil：单例化Redis连接对象等功能
+  - pyAutoGuiUtil：封装PyAutoGUI操作等功能
 # 使用方式
 ## 使用步骤
 - 安装Python3.9和项目依赖
@@ -59,19 +59,9 @@ pip install -r requirements.txt
 ```
 https://github.com/MicrosoftArchive/redis/releases
 ```
-修改main.py和consumer.py里的变量
-```
-live_url：直播间地址
-key_list：允许点击的按键列表
-```
-打开bilibili并用obs推流 
-```
-https://link.bilibili.com/p/center/index#/my-room/start-live
-```
-依次启动
+修改`setting.py`中的全局配置变量后，依次启动
 ```
 main.py
-display_redis.py
 consumer.py
 ```
 打开游戏，等待接收弹幕执行按键指令

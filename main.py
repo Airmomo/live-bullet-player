@@ -1,4 +1,5 @@
 import asyncio
+import setting
 from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
 from danmu.main import danmuMain
 from danmu.douyin.main import douyinMain
@@ -48,13 +49,7 @@ def startKeyboardListener():
 
 
 if __name__ == '__main__':
-    live_urls = {
-        "https://live.bilibili.com/66666",
-        "https://www.douyu.com/43231",
-        "https://www.douyu.com/5169209",
-        "https://www.douyu.com/10718295",
-        "https://www.huya.com/991111",
-    }
+    live_urls = setting.LIVE_URLS
     task_futures = []
     redisUtil.setBulletSwitchStatus(redisUtil.SWITCH_OFF_STATUS)
     # 同步asyncio.loop

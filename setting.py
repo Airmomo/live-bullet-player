@@ -1,3 +1,12 @@
+# 监控的直播间地址
+# 抖音直播不在这里填入地址，需要自行到danmu/douyin/main.py中进行配置
+LIVE_URLS = {
+    "https://live.bilibili.com/66666",
+    "https://www.douyu.com/43231",
+    "https://www.douyu.com/5169209",
+    "https://www.douyu.com/10718295",
+    "https://www.huya.com/991111",
+}
 # 弹幕指令消费者的循环周期，周期越短，丢失的弹幕指令越多，但周期越长，将导致短时间内大量弹幕占用内存
 LOOP_SEC = 0.2
 # 按键按下间隔
