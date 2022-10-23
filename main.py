@@ -44,13 +44,6 @@ def on_press(key):
             print("弹幕操作指令状态：关闭")
 
 
-def startKeyboardListener():
-    # 键盘监听事件：阻塞线程
-    warnings.warn("with 语句阻塞了主线程。使用start代替with/join创建一个允许主循环启动的非阻塞线程.")
-    with keyboard.Listener(on_press=on_press) as listener:
-        listener.join()
-
-
 if __name__ == '__main__':
     live_urls = setting.LIVE_URLS
     task_futures = []
@@ -64,14 +57,11 @@ if __name__ == '__main__':
     max_worker_n = len(live_urls) + 2
     # 父线程捕获子线程抛出的异常
     with ThreadPoolExecutor(max_workers=max_worker_n) as executor:
-        # 启动键盘监听事件：阻塞线程需要另起线程
-        # task_futures.append(executor.submit(startKeyboardListener))
         # 启动直播弹幕线程
         for live_url in live_urls:
             task_futures.append(executor.submit(danmuMain, live_url))
-        # 启动抖音弹幕线程
+        # 启动抖音弹幕
         douyinMain(loop)
-        # task_futures.append(executor.submit(douyinMain, loop))
         for future in task_futures:
             try:
                 # 当子线程中异常时，这里会重新抛出
