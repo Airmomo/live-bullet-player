@@ -14,3 +14,5 @@ typing-extensions==3.7.4.3
 yarl==1.5.1
 redis==3.5.3
 PyAutoGUI==0.9.53
+websockets==10.4
+colorama==0.4.6

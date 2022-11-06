@@ -1,5 +1,8 @@
 from datetime import datetime
 from itertools import combinations
+from colorama import Fore, Back, Style, init
+
+init(autoreset=True)
 
 # 日志级别名称
 LIVE_DOUYU_NAME = "Douyu"
@@ -13,7 +16,7 @@ LIVE_HUYA_COLOR = "33m "  # 黄色
 LIVE_BILIBILI_COLOR = "34m "  # 蓝色
 
 
-def _getLiveColor(live):
+def _getLiveColor_bak(live):
     live_color = "0;0;0m "
     if live == LIVE_DOUYU_NAME:
         live_color = LIVE_DOUYU_COLOR
@@ -26,9 +29,22 @@ def _getLiveColor(live):
     return live_color
 
 
+def _getLiveColor_new(live):
+    live_color = ""
+    if live == LIVE_DOUYU_NAME:
+        live_color = Fore.RED
+    elif live == LIVE_DOUYIN_NAME:
+        live_color = Fore.GREEN
+    elif live == LIVE_HUYA_NAME:
+        live_color = Fore.YELLOW
+    elif live == LIVE_BILIBILI_NAME:
+        live_color = Fore.BLUE
+    return live_color
+
+
 def printBullet(live, room_id, name, content):
     color_pre = "\033["
-    color_set = _getLiveColor(live)
+    color_set = _getLiveColor_new(live)
     color_tail = " \033[0m"
     start = datetime.now()
     start_time = start.strftime('%Y-%m-%d %H:%M:%S')
@@ -36,9 +52,10 @@ def printBullet(live, room_id, name, content):
              + "[" + live.center(8) + "]" + "--" \
              + "[" + room_id.center(8) + "]" + " -> "
     bullet = "[" + name + "]" + "--" + "[" + content + "]"
-    print_str_list = [color_pre, color_set, header, bullet, color_tail]
+    # print_str_list = [color_pre, color_set, header, bullet, color_tail]
+    print_str_list = [color_set, header, bullet]
     print_str = "".join(print_str_list)
-    print(print_str, end="\r\n")
+    print(f"{print_str}", end="\r\n")
 
 
 def splitBullet(s):
